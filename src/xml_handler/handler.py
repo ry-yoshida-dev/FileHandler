@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 import xml.etree.ElementTree as ET
-from typing import Self
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -95,7 +94,7 @@ class XMLHandler:
         return self.find_nested_tags(tags=tags, xml_element=find_result)
 
     @classmethod
-    def from_path(cls, xml_path: str) -> Self:
+    def from_path(cls, xml_path: str) -> XMLHandler:
         """
         Create an XMLHandler instance from a file path.
 
