@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 import xml.etree.ElementTree as ET
 from typing import Self
 
+
 @dataclass
 class XMLHandler:
     """
@@ -18,6 +19,7 @@ class XMLHandler:
     xml_root : ET.Element
         The root element of the XML tree (initialized automatically).
     """
+
     xml: ET.ElementTree[ET.Element[str]]
     source: str = "<unknown>"
     xml_root: ET.Element = field(init=False)
@@ -53,9 +55,7 @@ class XMLHandler:
         return str(find_result.text) if find_result.text is not None else ""
 
     def find_nested_tags(
-        self, 
-        tags: list[str], 
-        xml_element: ET.Element | None = None
+        self, tags: list[str], xml_element: ET.Element | None = None
     ) -> str:
         """
         Find nested tags starting from the root or a specified element.
@@ -88,14 +88,11 @@ class XMLHandler:
         find_result = xml_element.find(tag)
         if find_result is None:
             raise ValueError(f"Tag '{tag}' not found in {self.source}")
-        
+
         if len(tags) == 0:
             return str(find_result.text) if find_result.text is not None else ""
-            
-        return self.find_nested_tags(
-            tags=tags, 
-            xml_element=find_result
-        )
+
+        return self.find_nested_tags(tags=tags, xml_element=find_result)
 
     @classmethod
     def from_path(cls, xml_path: str) -> Self:

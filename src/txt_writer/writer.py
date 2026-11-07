@@ -19,15 +19,16 @@ class TxtWriter:
     flush_frequency: int
         The frequency to flush the file.
     """
+
     def __init__(
-        self, 
-        output_path: str, 
+        self,
+        output_path: str,
         is_reset_enabled: bool = False,
-        flush_frequency: int = 1000
-        ):
+        flush_frequency: int = 1000,
+    ):
         """
         Initialize the TxtWriter.
-        
+
         Parameters:
         ----------
         output_path: str
@@ -50,11 +51,7 @@ class TxtWriter:
         self.flush_counter = 0
         self.flush_frequency = flush_frequency
 
-    def write(
-        self, 
-        txt: str, 
-        is_new_line: bool = False
-        ) -> None:
+    def write(self, txt: str, is_new_line: bool = False) -> None:
         """
         Write a string to the file.
 
@@ -80,13 +77,13 @@ class TxtWriter:
 
     def __str__(self) -> str:
         return f"TxtWriter(output_path={self.output_path})"
-    
+
     def __del__(self):
         self.close()
-    
+
     def __enter__(self):
         return self
-    
+
     def __exit__(
         self,
         exc_type: type[BaseException] | None,
