@@ -1,9 +1,14 @@
 from __future__ import annotations
+
 import os
 from enum import Enum
 
 
 class FileType(Enum):
+    """
+    File formats that FileHandler can save and load.
+    """
+
     PICKLE = "pickle"
     JSON = "json"
     YAML = "yaml"
@@ -11,6 +16,24 @@ class FileType(Enum):
 
     @classmethod
     def from_path(cls, path: str) -> FileType:
+        """
+        Determine the file format from the extension of a path.
+
+        Parameters
+        ----------
+        path: str
+            The file path whose extension is inspected, case-insensitively.
+
+        Returns
+        -------
+        FileType
+            The format that matches the extension.
+
+        Raises
+        ------
+        ValueError
+            If the extension is not supported.
+        """
         ext = os.path.splitext(path)[1].lower().lstrip(".")
         type_ = {
             "json": cls.JSON,

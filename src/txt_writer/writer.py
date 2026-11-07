@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from types import TracebackType
 
@@ -6,7 +8,7 @@ class TxtWriter:
     """
     A class for writing text files.
 
-    Attributes:
+    Attributes
     ----------
     output_path: str
         The path to the output file.
@@ -29,7 +31,7 @@ class TxtWriter:
         """
         Initialize the TxtWriter.
 
-        Parameters:
+        Parameters
         ----------
         output_path: str
             The path to the output file.
@@ -55,14 +57,13 @@ class TxtWriter:
         """
         Write a string to the file.
 
-        Parameters:
+        Parameters
         ----------
         txt: str
             The string to write.
         is_new_line: bool
             Whether to add a new line.
         """
-
         if is_new_line and not txt.endswith("\n"):
             txt += "\n"
         self.file.write(txt)
@@ -71,6 +72,9 @@ class TxtWriter:
             self.file.flush()
 
     def close(self) -> None:
+        """
+        Close the file if it is open.
+        """
         file = getattr(self, "file", None)
         if file is not None and not file.closed:
             file.close()
@@ -78,10 +82,10 @@ class TxtWriter:
     def __str__(self) -> str:
         return f"TxtWriter(output_path={self.output_path})"
 
-    def __del__(self):
+    def __del__(self) -> None:
         self.close()
 
-    def __enter__(self):
+    def __enter__(self) -> TxtWriter:
         return self
 
     def __exit__(

@@ -1,10 +1,12 @@
-import os
 import json
+import os
 import pickle
-import yaml
-import h5py
+from typing import Any, cast
+
+# h5py ships neither inline types nor a stub package.
+import h5py  # pyright: ignore[reportMissingTypeStubs]
 import numpy as np
-from typing import Any
+import yaml
 
 from .type import FileType
 
@@ -29,7 +31,7 @@ class FileHandler:
         - .yml/.yaml: YAML format
         - .h5/.hdf5: HDF5 format
 
-        Parameters:
+        Parameters
         ----------
         obj: Any
             The object to save. Can be any Python object for pickle,
@@ -37,8 +39,8 @@ class FileHandler:
         path: str
             The file path where the object should be saved.
 
-        Raises:
-        --------
+        Raises
+        ------
         ValueError: If the file extension is not supported.
         Exception: If there's an error creating directories or writing the file.
         """
@@ -51,13 +53,13 @@ class FileHandler:
         try:
             FileHandler._run_save(obj, path, type_)
         except OSError as e:
-            raise Exception(f"Error creating directory or writing file: {e}")
+            raise Exception(f"Error creating directory or writing file: {e}") from e
 
     @staticmethod
     def _run_save(obj: Any, path: str, type_: FileType) -> None:
         """Process the save operation.
 
-        Parameters:
+        Parameters
         ----------
         obj: Any
             The object to save. Can be any Python object for pickle,
@@ -79,11 +81,13 @@ class FileHandler:
                     yaml.safe_dump(obj, f, allow_unicode=True)
             case FileType.H5:
                 with h5py.File(path, "w") as f:
+                    # create_dataset is untyped because h5py has no stubs.
                     if isinstance(obj, dict):
-                        for key, value in obj.items():
-                            f.create_dataset(key, data=np.array(value))
+                        datasets = cast("dict[str, object]", obj)
+                        for key, value in datasets.items():
+                            f.create_dataset(key, data=np.array(value))  # pyright: ignore[reportUnknownMemberType]
                     else:
-                        f.create_dataset("data", data=np.array(obj))
+                        f.create_dataset("data", data=np.array(obj))  # pyright: ignore[reportUnknownMemberType]
 
     @staticmethod
     def load(path: str) -> Any:
@@ -96,17 +100,17 @@ class FileHandler:
         - .yml/.yaml: YAML format
         - .h5/.hdf5: HDF5 format (returns h5py.File object)
 
-        Parameters:
+        Parameters
         ----------
         path: str
             The file path to load the object from.
 
-        Returns:
-        ---------
+        Returns
+        -------
         Any: The loaded object. For HDF5 files, returns an h5py.File object.
 
-        Raises:
-        --------
+        Raises
+        ------
         FileNotFoundError: If the specified file does not exist.
         ValueError: If the file extension is not supported.
         """
@@ -119,10 +123,10 @@ class FileHandler:
                 with open(path, mode="rb") as f:
                     return pickle.load(f)
             case FileType.JSON:
-                with open(path, mode="r") as f:
+                with open(path) as f:
                     return json.load(f)
             case FileType.YAML:
-                with open(path, mode="r") as f:
+                with open(path) as f:
                     return yaml.safe_load(f)
             case FileType.H5:
                 return h5py.File(path, "a")
