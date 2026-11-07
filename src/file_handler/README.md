@@ -2,24 +2,11 @@
 
 ## Overview
 
-Core file I/O utilities for saving and loading Python objects with automatic
-format detection from file extensions.
-
-## Supported formats
-
-| Extension | Format | Notes |
-|-----------|--------|-------|
-| `.json` | JSON | Best for simple, human-readable dict/list data |
-| `.pkl` | Pickle | Supports general Python objects |
-| `.yml`, `.yaml` | YAML | Human-readable config/data files |
-| `.h5`, `.hdf5` | HDF5 | Supports arrays and dict-like dataset storage |
+Save and load Python objects with the format detected from the file extension: JSON (`.json`), Pickle (`.pkl`), YAML (`.yml`, `.yaml`), and HDF5 (`.h5`, `.hdf5`).
 
 ## Components
 
-| File | Role |
+| Component | Description |
 |------|------|
-| [handler.py](handler.py) | `FileHandler` implementation (`save`, `load`) |
+| [handler.py](handler.py) | `FileHandler` (`save`, `load`) |
 | [type.py](type.py) | `FileType` enum and extension-to-type mapping |
-| [__init__.py](__init__.py) | Package export entrypoint (`FileHandler`, `FileType`) |
-
-

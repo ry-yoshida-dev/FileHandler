@@ -6,7 +6,7 @@ Pytest suite for `file_handler`, `txt_writer`, and `xml_handler`.
 
 ## Components
 
-| File | Role |
+| Component | Description |
 |------|------|
 | [test_file_handler.py](test_file_handler.py) | `FileHandler` and `FileType` round-trip and error cases |
 | [test_txt_writer.py](test_txt_writer.py) | `TxtWriter` write modes and context manager |
