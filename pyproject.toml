@@ -7,7 +7,7 @@ name = "file-handler"
 version = "0.1.0"
 description = "Lightweight file I/O utilities for structured data, text, and XML."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [
   { name = "ry-yoshida" }
@@ -65,7 +65,7 @@ module = ["h5py"]
 ignore_missing_imports = true
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "D"]
